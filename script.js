@@ -26,6 +26,7 @@ function playerPlay(){
 
 function gameRound(computer,player){
     let outcome;
+    
     switch(player){
         case "rock": 
             if(computer == "rock") outcome = "draw";
@@ -67,14 +68,41 @@ function game(playerSelect){
     if(outcome == "win") playerScore++;
     else if(outcome == "lost") computerScore++;
     console.log(generateMessage(outcome, playerSelect, computerSelect));
-    console.log(playerSelect, computerSelect)
-    console.log(playerScore,computerScore)
+    resultsDisplay.textContent =`Player: ${playerScore}    Computer: ${computerScore}` ;
+    if (playerScore == 5 || computerScore ==5){
+        gameContainer.textContent = "";
+        let restart = document.createElement("button");
+        restart.textContent = "restart";
+        restart.addEventListener("click", () => restartGame())
+        gameContainer.appendChild(restart)
+
+    }
+}
+function restartGame(){
+    playerScore = 0
+    computerScore = 0
+    let rock = document.createElement("button");
+    let paper = document.createElement("button");
+    let scissors = document.createElement("button");
+    rock.setAttribute("id","rock");
+    paper.setAttribute("id","paper");
+    scissors.setAttribute("id","scissors");
+    rock.textContent = "rock";
+    paper.textContent = "paper"
+    scissors.textContent = "scissors"
+    gameContainer.textContent="";
+    gameContainer.appendChild(rock);
+    gameContainer.appendChild(paper);
+    gameContainer.appendChild(scissors);
+    let gameButtons = document.querySelectorAll("button");
+    gameButtons.forEach(element => {
+        element.addEventListener("click",(e)=> game(e.target.id))
+        
+    });
 }
 let playerScore = 0;
 let computerScore = 0;
-let gameButtons;
-gameButtons = document.querySelectorAll("button");
-gameButtons.forEach(element => {
-    element.addEventListener("click",(e)=> game(e.target.id))
-    
-});
+
+let resultsDisplay = document.querySelector("#results p");
+let gameContainer = document.getElementById("gameContainer");
+restartGame()
