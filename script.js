@@ -15,7 +15,6 @@ function computerPlay(){
 }
 
 function playerPlay(){
-    let selection = window.prompt("Rock, paper or Scissors?");
     selection = selection.toLowerCase();
     while(selection != "rock" && selection != "paper" && selection != "scissors" ){
         console.log("invalid option, please select Rock, paper or Scissors");
@@ -44,7 +43,7 @@ function gameRound(computer,player){
             else outcome = "draw";
             break;
     }
-    return {outcome: outcome, player: player, computer: computer};
+    return outcome;
 
 }
 function generateMessage(outcome,player, computer){
@@ -62,19 +61,20 @@ function generateMessage(outcome,player, computer){
     return message;
 }
 
-function game(){
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let index = 0; index < 5; index++) {
-        let computerSelect = computerPlay();
-        let plasyerSelect = playerPlay();
-        let {outcome, player, computer} = gameRound(computerSelect, plasyerSelect);
-        if(outcome == "win") playerScore++;
-        else if(outcome == "lose") computerScore++;
-        console.log(generateMessage(outcome, player, computer));
-        }
-    return playerScore;
+function game(playerSelect){
+    let computerSelect = computerPlay();
+    let outcome = gameRound(computerSelect, playerSelect);
+    if(outcome == "win") playerScore++;
+    else if(outcome == "lost") computerScore++;
+    console.log(generateMessage(outcome, playerSelect, computerSelect));
+    console.log(playerSelect, computerSelect)
+    console.log(playerScore,computerScore)
 }
-
-
-console.log(game());
+let playerScore = 0;
+let computerScore = 0;
+let gameButtons;
+gameButtons = document.querySelectorAll("button");
+gameButtons.forEach(element => {
+    element.addEventListener("click",(e)=> game(e.target.id))
+    
+});
